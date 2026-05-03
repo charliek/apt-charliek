@@ -46,7 +46,15 @@ This is its own PR with a careful test plan, not a v1 line item.
 
 **Why deferred:** the bucket is cheap and the dataset is tiny. Revisit if `pool/` ever exceeds a few hundred MB or apt update times become noticeable.
 
-## 5. (Future) Add by-hash directories for atomic mirror reads
+## 5. Tighten Cloudflare SSL/TLS to Full for `apt.stridelabs.ai`
+
+**Current state:** the `stridelabs.ai` zone-level SSL/TLS mode is set to **Flexible** because other services on the zone require it. That makes Cloudflare → GCS happen over plain HTTP. User → Cloudflare is still HTTPS.
+
+**Better state:** scope a Configuration Rule (Rules → Configuration Rules → action: SSL) to `Hostname equals "apt.stridelabs.ai"` and set SSL to **Full**. That gives end-to-end HTTPS without changing the zone-wide setting that other services depend on.
+
+**Why deferred:** the per-hostname SSL override is buried in Cloudflare's UI and only some plan tiers expose it cleanly. The actual integrity boundary for the apt repo is GPG signing on the metadata, not TLS — apt-secure refuses anything that doesn't verify against the pubkey, regardless of transport. Flexible mode is operationally fine; this is "defense in depth" at the origin leg. Revisit when convenient.
+
+## 6. (Future) Add by-hash directories for atomic mirror reads
 
 **Current state:** `apt-ftparchive.conf` does not enable `DoByHash`, so no `by-hash/<algo>/<digest>` directories are emitted alongside `Packages` files.
 
