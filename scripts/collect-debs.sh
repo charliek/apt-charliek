@@ -55,7 +55,9 @@ skipped=0
 for i in $(seq 0 $((count - 1))); do
 	name=$(yq -r ".packages[$i].name" "$PACKAGES_FILE")
 	repo=$(yq -r ".packages[$i].repo" "$PACKAGES_FILE")
-	glob=$(yq -r ".packages[$i].glob // \"*.deb\"" "$PACKAGES_FILE")
+	# Default the glob to <name>_*.deb (not just *.deb) so that if a source
+	# repo ever attaches an unrelated .deb to a release we don't pull it in.
+	glob=$(yq -r ".packages[$i].glob // \"${name}_*.deb\"" "$PACKAGES_FILE")
 	include_pre=$(yq -r ".packages[$i].include_prerelease // false" "$PACKAGES_FILE")
 
 	if [ -n "$PKG_FILTER" ] && [ "$PKG_FILTER" != "$name" ]; then
@@ -75,9 +77,15 @@ for i in $(seq 0 $((count - 1))); do
 		jq_filter='[.[] | select(.isPrerelease|not)] | sort_by(.publishedAt) | reverse | .[0].tagName'
 	fi
 
+	# Don't suppress stderr or `|| true` here — gh exits 0 with empty output
+	# when a repo simply has no releases, and exits non-zero on real failures
+	# (auth, rate limit, network, ACL). Silently treating those as "no
+	# releases" would let the publish workflow ship a stale apt repo without
+	# alerting the operator. Let real failures propagate (set -e at the top
+	# of the script will trip).
 	tag=$(gh release list --repo "$repo" --limit 30 \
 		--json tagName,isPrerelease,publishedAt \
-		--jq "$jq_filter" 2>/dev/null || true)
+		--jq "$jq_filter")
 
 	if [ -z "$tag" ] || [ "$tag" = "null" ]; then
 		echo "    no releases on $repo yet; skipping (not a failure)"

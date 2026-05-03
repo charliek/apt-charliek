@@ -91,6 +91,7 @@ nav:
       - Setup: development/setup.md
       - Secrets: development/secrets.md
       - Release Flow: development/release-flow.md
+      - Known Follow-ups: development/follow-ups.md
 
 extra:
   social:

@@ -1,6 +1,6 @@
 [tools]
 shellcheck = "0.10"
 shfmt = "3.8"
-nfpm = "latest"
+nfpm = "2.46"
 yq = "4"
 

@@ -22,31 +22,50 @@ mode=""
 url=""
 pkg_override=""
 
+usage() {
+	echo "usage: $0 (--local | --url <base-url>) [--pkg <name>]" >&2
+	exit 2
+}
+
 while [ $# -gt 0 ]; do
 	case "$1" in
 	--local)
+		[ -z "$mode" ] || {
+			echo "error: --local and --url are mutually exclusive" >&2
+			usage
+		}
 		mode="local"
 		shift
 		;;
 	--url)
+		[ -z "$mode" ] || {
+			echo "error: --local and --url are mutually exclusive" >&2
+			usage
+		}
+		[ $# -ge 2 ] || {
+			echo "error: --url requires a value" >&2
+			usage
+		}
 		mode="url"
 		url="$2"
 		shift 2
 		;;
 	--pkg)
+		[ $# -ge 2 ] || {
+			echo "error: --pkg requires a value" >&2
+			usage
+		}
 		pkg_override="$2"
 		shift 2
 		;;
 	*)
-		echo "usage: $0 (--local | --url <base-url>) [--pkg <name>]" >&2
-		exit 2
+		usage
 		;;
 	esac
 done
 
 if [ -z "$mode" ]; then
-	echo "usage: $0 (--local | --url <base-url>) [--pkg <name>]" >&2
-	exit 2
+	usage
 fi
 
 require() {
@@ -56,12 +75,14 @@ require() {
 	}
 }
 require docker
-require yq
 
-# Build the list of packages to probe.
+# Build the list of packages to probe. Only require yq when we actually need
+# to read packages.yaml — fixture/local smoke runs that pass --pkg can do
+# without yq on PATH.
 if [ -n "$pkg_override" ]; then
 	pkgs=("$pkg_override")
 else
+	require yq
 	mapfile -t pkgs < <(yq -r '.packages[].name // empty' packages.yaml)
 fi
 if [ "${#pkgs[@]}" = "0" ]; then

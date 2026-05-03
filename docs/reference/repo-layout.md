@@ -4,7 +4,7 @@ What apt-charliek writes into `gs://apt.stridelabs.ai/`.
 
 ## Tree
 
-```
+```text
 gs://apt.stridelabs.ai/
 ├── pubkey.asc                            (armored, for humans)
 ├── pubkey.gpg                            (binary, for signed-by= in sources.list)

@@ -31,6 +31,10 @@ permissions:
 
 jobs:
   publish:
+    # Hard guard: never publish from a non-main ref. Without this, anyone with
+    # write access could `gh workflow run publish.yml --ref some-branch` and
+    # ship that branch's code with production GCP credentials + signing key.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

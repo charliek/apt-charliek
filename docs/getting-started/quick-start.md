@@ -2,9 +2,18 @@
 
 Add the repo and install one of the packages.
 
+!!! note "Status: setup in progress"
+    The infrastructure (bucket, signing key, publish workflow) is in place
+    but no packages are tracked yet. The first onboarded package is `prox`,
+    landing in a follow-up PR. Until then `apt update` succeeds (signed
+    empty repo) but `apt install <pkg>` will not find any of the listed
+    packages.
+
 ## 1. Add the repository
 
 ```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+
 curl -fsSL https://apt.stridelabs.ai/pubkey.gpg | \
   sudo tee /etc/apt/keyrings/apt-charliek.gpg > /dev/null
 
@@ -13,6 +22,8 @@ echo 'deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.
 
 sudo apt update
 ```
+
+The `install -d` line creates `/etc/apt/keyrings/` with the right mode if it doesn't already exist (minimal Docker images and some fresh installs lack it).
 
 ## 2. Install a package
 

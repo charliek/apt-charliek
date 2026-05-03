@@ -16,11 +16,17 @@ The pubkey at `gs://apt.stridelabs.ai/pubkey.gpg` is regenerated on every publis
 ## One-time generation
 
 ```bash
-gpg --quick-generate-key 'Charlie Knudsen apt repo <apt@stridelabs.ai>' ed25519 sign 0
+KEY_UID='Charlie Knudsen apt repo <apt@stridelabs.ai>'
+gpg --batch --pinentry-mode loopback --passphrase '' \
+    --quick-generate-key "$KEY_UID" ed25519 sign 0
 # 'sign' = signing-only (no encryption capability)
-# '0'    = no expiration
+# '0'    = no expiration; --passphrase '' = no passphrase (CI consumes unattended)
 
-FPR=$(gpg --list-secret-keys --with-colons | awk -F: '/^fpr:/ { print $10; exit }')
+# Match the key by user-id, not by listing all keys — if you have other keys
+# in your keyring, a blind `awk … exit` would grab the wrong one.
+FPR=$(gpg --list-secret-keys --with-colons "$KEY_UID" \
+        | awk -F: '/^fpr:/ { print $10; exit }')
+[ -n "$FPR" ] || { echo "could not resolve fingerprint for $KEY_UID" >&2; exit 1; }
 
 mkdir -p .secrets
 gpg --armor --export-secret-keys "$FPR" > .secrets/apt-signing-key.asc

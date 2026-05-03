@@ -41,7 +41,7 @@ publish-fixture:
 	@cp fixtures/hello_0.0.1_amd64.deb pool/main/h/hello/
 	FIXTURE_MODE=1 ./scripts/publish.sh
 
-verify-local:
+verify-local: publish-fixture
 	./scripts/verify.sh --local --pkg hello
 
 verify-public:

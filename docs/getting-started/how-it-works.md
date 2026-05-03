@@ -4,7 +4,7 @@ apt-charliek is a static apt repository: a tree of files in a Google Cloud Stora
 
 ## Pipeline
 
-```
+```text
 Source repos (charliek/prox, charliek/shed, charliek/envsecrets, ...)
     │
     │ git push --tags v1.2.3

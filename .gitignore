@@ -9,6 +9,11 @@
 .secrets/apt-signing-key.asc
 .secrets/apt-signing-key.fpr
 
+# Belt-and-suspenders: catch anything else that ends up under .secrets/.
+# The explicit list above is what envsecrets tracks; this just prevents an
+# accidental `git add .secrets/some-other-file.json` from reaching the repo.
+.secrets/*
+
 # uv / python build noise
 .venv/
 __pycache__/
