@@ -2,12 +2,11 @@
 
 A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects. After adding the repo once, friends and Linux users can install and update tools like `prox`, `shed-server`, and `envsecrets` through their normal `apt install` / `apt upgrade` workflow.
 
-!!! note "Status: setup in progress"
-    The infrastructure (bucket, signing key, publish workflow) is in place
-    but no packages have been onboarded yet. The first to land is `prox`.
-    The "What's in it" table below is forward-looking — entries marked
-    *(not yet published)* won't be installable until their first release
-    fires the publish workflow.
+!!! note "Status: prox is live; shed-server and envsecrets are planned"
+    [`prox`](https://github.com/charliek/prox) is the first package on the
+    repo and is installable today. Entries marked *(not yet published)* in
+    the table below won't appear via `apt install` until their first
+    release fires the publish workflow.
 
 ## Install
 
@@ -28,7 +27,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 
 | Package | Source | Status | Description |
 |---|---|---|---|
-| `prox` | [charliek/prox](https://github.com/charliek/prox) | tracked *(first publish pending)* | Modern process manager for development with API-first design |
+| `prox` | [charliek/prox](https://github.com/charliek/prox) | published (v0.1.1) | Modern process manager for development with API-first design |
 | `shed-server` | [charliek/shed](https://github.com/charliek/shed) | not yet published | CLI and server for managing persistent VM-based dev environments |
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | not yet published | CLI for managing encrypted environment files using GCS and age |
 

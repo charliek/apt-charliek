@@ -100,3 +100,34 @@ Watch the chain:
 3. After ~3 minutes, `apt update && apt-cache madison <project>` shows the new version.
 
 If the publish workflow fails because the GitHub release has no matching deb asset, fix the source repo's `nfpms:` config and cut a new release. The publish is idempotent — it'll pick up the corrected asset on the next dispatch.
+
+## Step 6: Add a Linux (apt) install section to the source repo's README
+
+After your first release lands and `apt install <project>` works against the live repo, mirror the existing Homebrew snippet in your project's README so Linux users discover the apt path. Recommended template (paste directly into the README's Installation section):
+
+````markdown
+### Linux (apt)
+
+```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+curl -fsSL https://apt.stridelabs.ai/pubkey.gpg | \
+  sudo tee /etc/apt/keyrings/apt-charliek.gpg > /dev/null
+echo 'deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main' | \
+  sudo tee /etc/apt/sources.list.d/apt-charliek.list
+sudo apt update
+sudo apt install <project>
+```
+
+Tested on Pop!_OS 24.04 and Ubuntu 24.04+. Architectures: `amd64`, `arm64`.
+
+### Linux (`.deb` download, no apt repo)
+
+```bash
+ARCH=$(dpkg --print-architecture)
+VERSION=<latest from GitHub releases>
+curl -fLO "https://github.com/charliek/<project>/releases/download/v${VERSION}/<project>_${VERSION}_${ARCH}.deb"
+sudo dpkg -i "<project>_${VERSION}_${ARCH}.deb"
+```
+````
+
+For a worked example, see [prox's Installation section](https://github.com/charliek/prox#installation).

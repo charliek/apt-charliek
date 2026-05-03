@@ -1,71 +1,79 @@
-# apt-charliek
+# charliek apt repo
 
-Public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects (`prox`, `shed-server`, `envsecrets`, ...). Companion to [`charliek/homebrew-tap`](https://github.com/charliek/homebrew-tap) for macOS.
+Public Debian/Ubuntu apt repository for [charliek](https://github.com/charliek)'s open-source projects. Companion to [`charliek/homebrew-tap`](https://github.com/charliek/homebrew-tap) for macOS users.
 
 ## Install
 
+Add the repo once:
+
 ```bash
+sudo install -d -m 0755 /etc/apt/keyrings
 curl -fsSL https://apt.stridelabs.ai/pubkey.gpg | \
   sudo tee /etc/apt/keyrings/apt-charliek.gpg > /dev/null
 echo 'deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main' | \
   sudo tee /etc/apt/sources.list.d/apt-charliek.list
 sudo apt update
+```
+
+Then install one or more packages:
+
+```bash
 sudo apt install prox
 ```
 
-Tested on Pop!_OS 24.04 and Ubuntu 24.04+.
+## Packages
 
-## What's in it
-
-| Package | Source | Description |
+| Package | Status | Description |
 |---|---|---|
-| `prox` | [charliek/prox](https://github.com/charliek/prox) | Modern process manager for development with API-first design |
-| `shed-server` | [charliek/shed](https://github.com/charliek/shed) | CLI and server for managing persistent VM-based dev environments |
-| `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | CLI for managing encrypted environment files using GCS and age |
+| [`prox`](https://github.com/charliek/prox) | ✓ published | Modern process manager for development with API-first design |
+| [`shed-server`](https://github.com/charliek/shed) | planned | Server component of [shed](https://github.com/charliek/shed) (the CLI ships via Homebrew on macOS) |
+| [`envsecrets`](https://github.com/charliek/envsecrets) | planned | CLI for managing encrypted environment files via GCS and age |
 
-The full list is in [`packages.yaml`](packages.yaml).
+Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 
-## How it works
+## Supported platforms
 
-Source repos cut releases via GoReleaser, attach `.deb` artifacts (built with `nfpm`) to their GitHub Releases, and fire a `repository_dispatch` event at this repo. This repo's publish workflow re-scans every tracked package's latest release, regenerates apt metadata with `apt-ftparchive`, signs it with an ed25519 key, and uploads to a public GCS bucket fronted by Cloudflare.
+- **Architectures**: `amd64`, `arm64`
+- **Distros**: Pop!_OS 24.04, Ubuntu 24.04+ (Debian 12 likely works for CLI-only packages but isn't tested)
+- **Out of scope**: Ubuntu 22.04 LTS and earlier, Fedora/openSUSE/Arch (no `rpm` channel today)
 
-Total time from `git push --tags` in a source repo to `apt update` showing the new version: ~3–5 minutes.
+## Direct `.deb` download (no apt repo)
 
-For the architecture diagram, security model, and idempotency notes, see [How It Works](https://charliek.github.io/apt-charliek/getting-started/how-it-works/).
+For one-off installs without configuring the apt repo, every release attaches `.deb` artifacts to the source project's GitHub Release. Pattern:
 
-## Adding a package
+```bash
+ARCH=$(dpkg --print-architecture)
+VERSION=<version from the source repo's releases page>
+curl -fLO "https://github.com/charliek/<project>/releases/download/v${VERSION}/<project>_${VERSION}_${ARCH}.deb"
+sudo dpkg -i "<project>_${VERSION}_${ARCH}.deb"
+```
 
-1. Add an `nfpms:` block to the source repo's `.goreleaser.yaml`.
-2. Add a final "Trigger apt-charliek publish" step to the source repo's release workflow (uses an `APT_DISPATCH_TOKEN` secret).
-3. Append an entry to `packages.yaml` here.
+See each project's README for the exact filename and a worked example (e.g. [prox's installation section](https://github.com/charliek/prox#installation)).
 
-Full contract with copy-paste snippets: [Adding a Package](https://charliek.github.io/apt-charliek/guides/adding-a-package/).
+## How it works (briefly)
+
+Source repos cut releases via GoReleaser, attach `.deb` artifacts to their GitHub Releases, and fire `repository_dispatch` at this repo. The publish workflow regenerates apt metadata, signs it with an ed25519 key, and uploads to a GCS bucket fronted by Cloudflare. Total tag-to-`apt update` time: ~3–5 minutes.
+
+Full architecture, security model, and release-flow walkthrough: <https://charliek.github.io/apt-charliek/>.
+
+## Adding a new package
+
+Three-step contract for project owners — see the [Adding a Package guide](https://charliek.github.io/apt-charliek/guides/adding-a-package/) for full snippets:
+
+1. Add an `nfpms:` block to your `.goreleaser.yaml`.
+2. Add a final "Trigger apt-charliek publish" step to your release workflow (uses the `APT_DISPATCH_TOKEN` repo secret).
+3. Append an entry to [`packages.yaml`](packages.yaml) here.
 
 ## Local development
 
 ```bash
 git clone git@github.com:charliek/apt-charliek.git
 cd apt-charliek
-uv sync --group docs
-make help
-make check        # lint + docs --strict + fixture publish + smoke test
+make check        # lint + docs --strict + fixture publish + ubuntu:noble smoke test
 ```
 
-`make check` is the PR-equivalent gauntlet — runs the entire pipeline against a committed fixture deb and an ephemeral GPG key. No real GCS, no real signing key.
-
-For the local dev runbook (envsecrets, fixture rebuild, etc.) see [Setup](https://charliek.github.io/apt-charliek/development/setup/).
-
-## Documentation
-
-Full documentation: <https://charliek.github.io/apt-charliek/>
-
-- [Quick Start](https://charliek.github.io/apt-charliek/getting-started/quick-start/) — install + verify
-- [Adding a Package](https://charliek.github.io/apt-charliek/guides/adding-a-package/)
-- [GCP Setup](https://charliek.github.io/apt-charliek/guides/gcp-setup/)
-- [Cloudflare Setup](https://charliek.github.io/apt-charliek/guides/cloudflare-setup/)
-- [Secrets](https://charliek.github.io/apt-charliek/development/secrets/) — GPG key custody and rotation
-- [Release Flow](https://charliek.github.io/apt-charliek/development/release-flow/) — what happens on `git push --tags`
+See the [Setup guide](https://charliek.github.io/apt-charliek/development/setup/) for the full local dev runbook (envsecrets, fixture rebuild, etc.).
 
 ## License
 
-The shell scripts, workflows, and configuration in this repo are MIT-licensed. The packages distributed via the apt repo carry their own licenses — see each package's source repo.
+Scripts, workflows, and configuration are MIT-licensed. Distributed packages carry their own licenses — see each source repo.
