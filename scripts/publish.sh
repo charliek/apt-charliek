@@ -59,9 +59,13 @@ trap 'rm -rf "$GNUPGHOME"' EXIT
 
 if [ "$FIXTURE_MODE" = "1" ]; then
 	echo "==> FIXTURE_MODE: generating ephemeral signing key"
-	gpg --batch --quick-generate-key \
+	# --pinentry-mode loopback + empty --passphrase: required on headless
+	# runners with no gpg-agent / pinentry. Locally these flags are no-ops
+	# but on CI without them gpg --quick-generate-key exits with code 2.
+	gpg --batch --pinentry-mode loopback --passphrase '' \
+		--quick-generate-key \
 		'apt-charliek fixture <fixture@example.invalid>' \
-		ed25519 sign 0 >/dev/null 2>&1
+		ed25519 sign 0
 	APT_SIGNING_KEY_FPR=$(gpg --list-secret-keys --with-colons |
 		awk -F: '/^fpr:/ { print $10; exit }')
 	echo "    fixture fingerprint: $APT_SIGNING_KEY_FPR"
