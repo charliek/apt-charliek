@@ -83,7 +83,10 @@ if [ -n "$pkg_override" ]; then
 	pkgs=("$pkg_override")
 else
 	require yq
-	mapfile -t pkgs < <(yq -r '.packages[].name // empty' packages.yaml)
+	# Note: bare `.packages[].name`. mikefarah yq doesn't accept the jq-style
+	# `// empty` operator (it's a parser error), and yq is already forgiving
+	# about iterating an empty/null `.packages` — it just yields zero lines.
+	mapfile -t pkgs < <(yq -r '.packages[].name' packages.yaml)
 fi
 if [ "${#pkgs[@]}" = "0" ]; then
 	echo "    (no tracked packages to probe; verifying repo metadata only)"
