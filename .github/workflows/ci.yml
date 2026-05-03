@@ -1,0 +1,94 @@
+name: CI
+
+# Pull-request validation. No GCS access, no real signing key — runs the full
+# publish pipeline against the committed fixture deb and an ephemeral GPG key
+# generated inside the job. Catches publish-script regressions before merge.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'fixtures/**'
+      - 'apt-ftparchive.conf'
+      - 'packages.yaml'
+      - '.github/workflows/ci.yml'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    name: shell lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: shellcheck
+        run: shellcheck scripts/*.sh infra/*.sh fixtures/*.sh
+      - uses: mfinelli/setup-shfmt@v3
+        with:
+          shfmt-version: 3.8.0
+      - name: shfmt --diff
+        run: shfmt --diff scripts/ infra/ fixtures/
+
+  docs:
+    name: docs build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
+      - run: uv python install 3.13
+      - run: uv sync --group docs
+      - run: uv run mkdocs build --strict
+
+  fixture-publish:
+    name: fixture publish + smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install apt-utils + gpg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq apt-utils gpg
+
+      - name: Stage fixture into pool/
+        run: |
+          mkdir -p pool/main/h/hello
+          cp fixtures/hello_0.0.1_amd64.deb pool/main/h/hello/
+
+      - name: Run publish.sh in FIXTURE_MODE
+        env:
+          FIXTURE_MODE: "1"
+        run: ./scripts/publish.sh
+
+      - name: Assert metadata files exist
+        run: |
+          set -e
+          test -f dists/noble/InRelease   || { echo "missing InRelease"; exit 1; }
+          test -f dists/noble/Release     || { echo "missing Release"; exit 1; }
+          test -f dists/noble/Release.gpg || { echo "missing Release.gpg"; exit 1; }
+          test -f pubkey.gpg              || { echo "missing pubkey.gpg"; exit 1; }
+          test -f pubkey.asc              || { echo "missing pubkey.asc"; exit 1; }
+
+      - name: Verify InRelease signature against fixture pubkey
+        run: |
+          export GNUPGHOME=$(mktemp -d)
+          chmod 700 "$GNUPGHOME"
+          gpg --import pubkey.gpg
+          gpg --verify dists/noble/InRelease
+
+      - name: Assert Packages indexes the fixture
+        run: |
+          grep -q '^Package: hello$'    dists/noble/main/binary-amd64/Packages
+          grep -q '^Architecture: amd64$' dists/noble/main/binary-amd64/Packages
+          # arm64 Packages must exist (empty is fine)
+          test -f dists/noble/main/binary-arm64/Packages
+
+      - name: Local docker smoke test
+        run: ./scripts/verify.sh --local --pkg hello
