@@ -1,0 +1,33 @@
+# OS / editor noise
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# envsecrets
+.secrets/apt-signing-key.asc
+.secrets/apt-signing-key.fpr
+
+# uv / python build noise
+.venv/
+__pycache__/
+*.pyc
+
+# mkdocs build output
+site-build/
+
+# Local apt-publish workspace (regenerated every run; the bucket is the source of truth)
+pool/
+dists/
+.tmp/
+.cache/
+
+# Pubkey exports — written by every publish.sh run with whatever signing key
+# is in scope (fixture key in CI/local, production key in real publish). The
+# canonical pubkey lives in the bucket at https://apt.stridelabs.ai/pubkey.gpg.
+pubkey.gpg
+pubkey.asc
+
+# Goreleaser / nfpm scratch
+dist/

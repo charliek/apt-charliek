@@ -1,0 +1,74 @@
+name: Publish
+
+# Triggered by:
+#   - repository_dispatch event_type=publish, fired from each tracked source
+#     repo's release workflow at the end of a successful tag-build.
+#   - manual workflow_dispatch (e.g. "republish now after a Cloudflare change").
+#
+# The dispatch payload (.client_payload.package, .client_payload.tag) is logged
+# for observability but ignored for correctness — collect-debs.sh re-scans every
+# tracked package on every run, so a missed dispatch self-heals on the next one.
+
+on:
+  repository_dispatch:
+    types: [publish]
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Specific package or empty for all'
+        required: false
+        default: ''
+
+# Never run two publishes simultaneously — they'd race on the apt metadata
+# upload. Don't cancel a publish in progress; let it finish, then run the next.
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  id-token: write    # WIF auth to GCP
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Log dispatch context
+        run: |
+          echo "event_name           = ${{ github.event_name }}"
+          echo "payload.package      = ${{ github.event.client_payload.package }}"
+          echo "payload.tag          = ${{ github.event.client_payload.tag }}"
+          echo "input.package        = ${{ github.event.inputs.package }}"
+
+      - name: Install apt-utils
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq apt-utils
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Collect debs from GitHub releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Only respect a manually-supplied package filter; ignore dispatch payload.
+          PKG_FILTER: ${{ github.event.inputs.package }}
+        run: ./scripts/collect-debs.sh
+
+      - name: Publish to GCS
+        env:
+          BUCKET: gs://apt.stridelabs.ai
+          APT_SIGNING_KEY: ${{ secrets.APT_SIGNING_KEY }}
+          APT_SIGNING_KEY_FPR: ${{ secrets.APT_SIGNING_KEY_FPR }}
+        run: ./scripts/publish.sh
+
+      - name: Smoke test (storage URL — Cloudflare-independent)
+        run: |
+          ./scripts/verify.sh --url https://storage.googleapis.com/apt.stridelabs.ai

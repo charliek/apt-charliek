@@ -1,0 +1,24 @@
+# Tracked packages for apt-charliek.
+#
+# Adding a package: append an entry below, then make sure the source repo's
+# release flow attaches a matching .deb to its GitHub release and fires a
+# repository_dispatch at this repo on each release. See
+# docs/guides/adding-a-package.md for the full contract.
+
+suite: noble
+component: main
+architectures: [amd64, arm64]
+origin: charliek
+label: charliek apt repo
+description: "Debian/Ubuntu apt repository for charliek open-source projects"
+
+packages:
+  # No packages onboarded yet. prox is the first to land — see Phase 4 of the
+  # rollout plan. Once an entry exists here AND the source repo's latest GH
+  # release contains a matching .deb, the publish workflow will pick it up on
+  # the next dispatch.
+  #
+  # - name: prox
+  #   repo: charliek/prox
+  #   glob: "prox_*.deb"
+  #   include_prerelease: false
