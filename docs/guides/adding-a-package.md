@@ -126,7 +126,7 @@ Tested on Pop!_OS 24.04 and Ubuntu 24.04+. Architectures: `amd64`, `arm64`.
 ARCH=$(dpkg --print-architecture)
 VERSION=<latest from GitHub releases>
 curl -fLO "https://github.com/charliek/<project>/releases/download/v${VERSION}/<project>_${VERSION}_${ARCH}.deb"
-sudo dpkg -i "<project>_${VERSION}_${ARCH}.deb"
+sudo apt install -y "./<project>_${VERSION}_${ARCH}.deb"
 ```
 ````
 

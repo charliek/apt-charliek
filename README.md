@@ -45,8 +45,10 @@ For one-off installs without configuring the apt repo, every release attaches `.
 ARCH=$(dpkg --print-architecture)
 VERSION=<version from the source repo's releases page>
 curl -fLO "https://github.com/charliek/<project>/releases/download/v${VERSION}/<project>_${VERSION}_${ARCH}.deb"
-sudo dpkg -i "<project>_${VERSION}_${ARCH}.deb"
+sudo apt install -y "./<project>_${VERSION}_${ARCH}.deb"
 ```
+
+`apt install ./...deb` resolves dependencies automatically; plain `sudo dpkg -i` would skip that step and leave the system in an inconsistent state if the package gains dependencies later.
 
 See each project's README for the exact filename and a worked example (e.g. [prox's installation section](https://github.com/charliek/prox#installation)).
 
