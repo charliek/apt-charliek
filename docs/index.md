@@ -28,7 +28,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 
 | Package | Source | Status | Description |
 |---|---|---|---|
-| `prox` | [charliek/prox](https://github.com/charliek/prox) | not yet published | Modern process manager for development with API-first design |
+| `prox` | [charliek/prox](https://github.com/charliek/prox) | tracked *(first publish pending)* | Modern process manager for development with API-first design |
 | `shed-server` | [charliek/shed](https://github.com/charliek/shed) | not yet published | CLI and server for managing persistent VM-based dev environments |
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | not yet published | CLI for managing encrypted environment files using GCS and age |
 
