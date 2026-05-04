@@ -2,11 +2,13 @@
 
 A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects. After adding the repo once, friends and Linux users can install and update tools like `prox`, `shed-server`, and `envsecrets` through their normal `apt install` / `apt upgrade` workflow.
 
-!!! note "Status: prox is live; shed-server and envsecrets are planned"
+!!! note "Status: prox is live; envsecrets tracked (first publish pending); shed-server planned"
     [`prox`](https://github.com/charliek/prox) is the first package on the
-    repo and is installable today. Entries marked *(not yet published)* in
-    the table below won't appear via `apt install` until their first
-    release fires the publish workflow.
+    repo and is installable today. `envsecrets` is tracked in
+    `packages.yaml` but its first release with a `.deb` hasn't shipped
+    yet. Entries marked *(first publish pending)* or *(not yet published)*
+    won't appear via `apt install` until their first release fires the
+    publish workflow.
 
 ## Install
 
