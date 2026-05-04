@@ -29,7 +29,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 |---|---|---|---|
 | `prox` | [charliek/prox](https://github.com/charliek/prox) | published (v0.1.1) | Modern process manager for development with API-first design |
 | `shed-server` | [charliek/shed](https://github.com/charliek/shed) | not yet published | CLI and server for managing persistent VM-based dev environments |
-| `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | not yet published | CLI for managing encrypted environment files using GCS and age |
+| `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | tracked *(first publish pending)* | CLI for managing encrypted environment files using GCS and age |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
 
