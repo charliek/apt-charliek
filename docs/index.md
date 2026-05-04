@@ -5,9 +5,9 @@ A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects
 !!! note "Status: prox and envsecrets are live; shed-server planned"
     [`prox`](https://github.com/charliek/prox) and
     [`envsecrets`](https://github.com/charliek/envsecrets) are
-    installable today. Entries marked *(not yet published)* in the
-    table below won't appear via `apt install` until their first
-    release fires the publish workflow.
+    installable today. Entries marked *planned* in the table below
+    won't appear via `apt install` until their first release fires
+    the publish workflow.
 
 ## Install
 
@@ -29,7 +29,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 | Package | Source | Status | Description |
 |---|---|---|---|
 | `prox` | [charliek/prox](https://github.com/charliek/prox) | published (v0.1.1) | Modern process manager for development with API-first design |
-| `shed-server` | [charliek/shed](https://github.com/charliek/shed) | not yet published | CLI and server for managing persistent VM-based dev environments |
+| `shed-server` | [charliek/shed](https://github.com/charliek/shed) | planned | CLI and server for managing persistent VM-based dev environments |
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | published (v0.0.8) | CLI for managing encrypted environment files using GCS and age |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
