@@ -17,3 +17,7 @@ packages:
     repo: charliek/prox
     glob: "prox_*.deb"
     include_prerelease: false
+  - name: envsecrets
+    repo: charliek/envsecrets
+    glob: "envsecrets_*.deb"
+    include_prerelease: false
