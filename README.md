@@ -26,7 +26,7 @@ sudo apt install prox
 | Package | Status | Description |
 |---|---|---|
 | [`prox`](https://github.com/charliek/prox) | ✓ published | Modern process manager for development with API-first design |
-| [`shed-server`](https://github.com/charliek/shed) | planned | Server component of [shed](https://github.com/charliek/shed) (the CLI ships via Homebrew on macOS) |
+| [`shed-server`](https://github.com/charliek/shed) | ✓ published | Server component of [shed](https://github.com/charliek/shed) (the CLI ships via Homebrew on macOS) |
 | [`envsecrets`](https://github.com/charliek/envsecrets) | ✓ published | CLI for managing encrypted environment files via GCS and age |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.

@@ -21,3 +21,7 @@ packages:
     repo: charliek/envsecrets
     glob: "envsecrets_*.deb"
     include_prerelease: false
+  - name: shed-server
+    repo: charliek/shed
+    glob: "shed-server_*.deb"
+    include_prerelease: false
