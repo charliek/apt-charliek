@@ -28,8 +28,11 @@ sudo apt install prox
 | [`prox`](https://github.com/charliek/prox) | ✓ published | Modern process manager for development with API-first design |
 | [`shed-server`](https://github.com/charliek/shed) | ✓ published | Server component of [shed](https://github.com/charliek/shed) (the CLI ships via Homebrew on macOS) |
 | [`envsecrets`](https://github.com/charliek/envsecrets) | ✓ published | CLI for managing encrypted environment files via GCS and age |
+| [`roost`](https://github.com/charliek/roost) | ✓ published | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
+
+`roost` is a GUI application — after `sudo apt install roost`, launch it from your desktop's app menu (or run `roost`). It also installs the `roostctl` CLI for shell + AI-agent hook integration.
 
 ## Supported platforms
 
