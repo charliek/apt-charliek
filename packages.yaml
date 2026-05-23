@@ -25,3 +25,7 @@ packages:
     repo: charliek/shed
     glob: "shed-server_*.deb"
     include_prerelease: false
+  - name: roost
+    repo: charliek/roost
+    glob: "roost_*.deb"
+    include_prerelease: false
