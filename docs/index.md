@@ -1,10 +1,11 @@
 # apt-charliek
 
-A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects. After adding the repo once, friends and Linux users can install and update tools like `prox`, `shed-server`, and `envsecrets` through their normal `apt install` / `apt upgrade` workflow.
+A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects. After adding the repo once, friends and Linux users can install and update tools like `prox`, `shed-server`, `envsecrets`, and `roost` through their normal `apt install` / `apt upgrade` workflow.
 
-!!! note "Status: prox and envsecrets are live; shed-server planned"
-    [`prox`](https://github.com/charliek/prox) and
-    [`envsecrets`](https://github.com/charliek/envsecrets) are
+!!! note "Status: prox, envsecrets, and roost are live; shed-server planned"
+    [`prox`](https://github.com/charliek/prox),
+    [`envsecrets`](https://github.com/charliek/envsecrets), and
+    [`roost`](https://github.com/charliek/roost) are
     installable today. Entries marked *planned* in the table below
     won't appear via `apt install` until their first release fires
     the publish workflow.
@@ -31,6 +32,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 | `prox` | [charliek/prox](https://github.com/charliek/prox) | published (v0.1.1) | Modern process manager for development with API-first design |
 | `shed-server` | [charliek/shed](https://github.com/charliek/shed) | planned | CLI and server for managing persistent VM-based dev environments |
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | published (v0.0.8) | CLI for managing encrypted environment files using GCS and age |
+| `roost` | [charliek/roost](https://github.com/charliek/roost) | published (v0.0.1) | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
 
