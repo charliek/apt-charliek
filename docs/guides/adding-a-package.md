@@ -53,7 +53,44 @@ release-snapshot:
 
 ## Step 3: Add the dispatch step to the release workflow
 
-Append a final step to the source repo's `release.yaml`:
+The source repo's release workflow must `POST` a `repository_dispatch` at
+`charliek/apt-charliek` once its `.deb`s are attached to the GitHub Release. That
+endpoint needs `Contents: write` on this repo. There are two ways to authenticate
+it.
+
+### Option A (recommended): release-bot GitHub App token
+
+Mint a short-lived, single-repo-scoped token from the shared release-bot App — the
+same App used for branch-protection bypass and Homebrew-tap pushes. Nothing to
+rotate, and the token is scoped to `apt-charliek` alone. The App must be installed
+on `charliek/apt-charliek`.
+
+```yaml
+- name: Mint an apt-charliek token
+  id: apt
+  uses: actions/create-github-app-token@v2
+  with:
+    app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+    private-key: ${{ secrets.RELEASE_BOT_APP_KEY }}
+    owner: charliek
+    repositories: apt-charliek
+- name: Trigger apt-charliek publish
+  if: success()
+  env:
+    GH_TOKEN: ${{ steps.apt.outputs.token }}
+  run: |
+    gh api repos/charliek/apt-charliek/dispatches --method POST \
+      -f event_type=publish \
+      -F "client_payload[package]=<project>" \
+      -F "client_payload[tag]=${{ github.ref_name }}"
+    echo "::notice::Watch publish at https://github.com/charliek/apt-charliek/actions"
+```
+
+This is what `charliek/strix` uses — one App as the unified credential for the
+release's cross-repo pushes (apt dispatch + Homebrew formula). prox/roost migrate
+to it next.
+
+### Option B (legacy): fine-grained PAT
 
 ```yaml
 - name: Trigger apt-charliek publish
