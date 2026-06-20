@@ -33,3 +33,7 @@ packages:
     repo: charliek/strix
     glob: "strix_*.deb"
     include_prerelease: false
+  - name: codelens
+    repo: charliek/codelens
+    glob: "codelens_*.deb"
+    include_prerelease: false
