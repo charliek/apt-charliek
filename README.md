@@ -29,7 +29,7 @@ sudo apt install prox
 | [`shed-server`](https://github.com/charliek/shed) | ✓ published | Server component of [shed](https://github.com/charliek/shed) (the CLI ships via Homebrew on macOS) |
 | [`envsecrets`](https://github.com/charliek/envsecrets) | ✓ published | CLI for managing encrypted environment files via GCS and age |
 | [`roost`](https://github.com/charliek/roost) | ✓ published | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
-| [`codelens`](https://github.com/charliek/codelens) | pending | Analyze JVM codebases (Java & Kotlin) — classes, methods, handlers, and more (deb pipeline in flight; ships JDK 21+ server JAR alongside the Go CLI) |
+| [`codelens`](https://github.com/charliek/codelens) | ✓ published | Analyze JVM codebases (Java & Kotlin) — classes, methods, handlers, and more (ships JDK 21+ server JAR alongside the Go CLI) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 
