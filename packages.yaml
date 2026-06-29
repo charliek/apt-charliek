@@ -37,3 +37,7 @@ packages:
     repo: charliek/codelens
     glob: "codelens_*.deb"
     include_prerelease: false
+  - name: shed-machine-rc
+    repo: charliek/shed-extensions
+    glob: "shed-machine-rc_*.deb"
+    include_prerelease: false

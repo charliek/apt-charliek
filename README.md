@@ -30,6 +30,7 @@ sudo apt install prox
 | [`envsecrets`](https://github.com/charliek/envsecrets) | ✓ published | CLI for managing encrypted environment files via GCS and age |
 | [`roost`](https://github.com/charliek/roost) | ✓ published | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
 | [`codelens`](https://github.com/charliek/codelens) | ✓ published | Analyze JVM codebases (Java & Kotlin) — classes, methods, handlers, and more (ships JDK 21+ server JAR alongside the Go CLI) |
+| [`shed-machine-rc`](https://github.com/charliek/shed-extensions) | ⏳ pending | RC session helper for native machines — create/watch `claude remote-control` sessions on hosts that aren't sheds (host-side sibling of `shed-ext-rc`) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 
