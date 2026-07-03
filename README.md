@@ -31,6 +31,7 @@ sudo apt install prox
 | [`roost`](https://github.com/charliek/roost) | ✓ published | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
 | [`codelens`](https://github.com/charliek/codelens) | ✓ published | Analyze JVM codebases (Java & Kotlin) — classes, methods, handlers, and more (ships JDK 21+ server JAR alongside the Go CLI) |
 | [`shed-machine-rc`](https://github.com/charliek/shed-extensions) | ✓ published | RC session helper for native machines — create/watch `claude remote-control` sessions on hosts that aren't sheds (host-side sibling of `shed-ext-rc`) |
+| [`shed-desktop`](https://github.com/charliek/shed-desktop) | ◷ pending first release | GTK4/libadwaita Linux desktop client for [shed](https://github.com/charliek/shed) (ships the `shedctl` CLI too; macOS ships as a DMG) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 

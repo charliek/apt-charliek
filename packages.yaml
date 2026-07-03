@@ -41,3 +41,7 @@ packages:
     repo: charliek/shed-extensions
     glob: "shed-machine-rc_*.deb"
     include_prerelease: false
+  - name: shed-desktop
+    repo: charliek/shed-desktop
+    glob: "shed-desktop_*.deb"
+    include_prerelease: false
