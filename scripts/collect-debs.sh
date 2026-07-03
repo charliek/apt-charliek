@@ -7,8 +7,10 @@
 #
 # Hard-fails when a package's *latest* release exists but contains no matching
 # asset — that's a regression in the source repo's nfpms config and we want it
-# to be loud. Skips silently when a package has no releases at all (legitimate
-# state for a freshly-onboarded entry that hasn't shipped its first release).
+# to be loud. Skips when a package has no releases at all (legitimate state for
+# a freshly-onboarded entry that hasn't shipped its first release), or when the
+# entry sets `optional: true` in packages.yaml (a tracked package that has no
+# .deb in its latest release yet — e.g. still onboarding a first Linux build).
 #
 # Inputs (env):
 #   PACKAGES_FILE  Path to packages.yaml. Default: ./packages.yaml.
@@ -59,6 +61,9 @@ for i in $(seq 0 $((count - 1))); do
 	# repo ever attaches an unrelated .deb to a release we don't pull it in.
 	glob=$(yq -r ".packages[$i].glob // \"${name}_*.deb\"" "$PACKAGES_FILE")
 	include_pre=$(yq -r ".packages[$i].include_prerelease // false" "$PACKAGES_FILE")
+	# optional=true: a missing .deb in the latest release is a warning, not a
+	# hard failure — for a package still onboarding its first .deb.
+	optional=$(yq -r ".packages[$i].optional // false" "$PACKAGES_FILE")
 
 	if [ -n "$PKG_FILTER" ] && [ "$PKG_FILTER" != "$name" ]; then
 		continue
@@ -102,18 +107,28 @@ for i in $(seq 0 $((count - 1))); do
 
 	if ! gh release download "$tag" --repo "$repo" \
 		--pattern "$glob" --dir "$tmpdir" --clobber 2>/dev/null; then
+		rm -rf "$tmpdir"
+		if [ "$optional" = "true" ]; then
+			echo "    latest release $tag has no asset matching '$glob'; skipping (optional)"
+			skipped=$((skipped + 1))
+			continue
+		fi
 		echo "    FAIL: latest release $tag has no asset matching '$glob'" >&2
 		echo "          fix the source repo's nfpms config and re-cut the release" >&2
 		failures=$((failures + 1))
-		rm -rf "$tmpdir"
 		continue
 	fi
 
 	matched=$(find "$tmpdir" -maxdepth 1 -name '*.deb' | wc -l)
 	if [ "$matched" = "0" ]; then
+		rm -rf "$tmpdir"
+		if [ "$optional" = "true" ]; then
+			echo "    latest release $tag has no .deb asset matching '$glob'; skipping (optional)"
+			skipped=$((skipped + 1))
+			continue
+		fi
 		echo "    FAIL: latest release $tag has no .deb asset matching '$glob'" >&2
 		failures=$((failures + 1))
-		rm -rf "$tmpdir"
 		continue
 	fi
 

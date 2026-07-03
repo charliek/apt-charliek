@@ -45,3 +45,7 @@ packages:
     repo: charliek/shed-desktop
     glob: "shed-desktop_*.deb"
     include_prerelease: false
+    # macOS app; pending its first Linux .deb. Until it ships one, its .dmg-only
+    # releases must not fail the collect. Remove once it reliably ships a .deb
+    # (so a later regression fails loudly again).
+    optional: true
