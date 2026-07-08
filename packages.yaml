@@ -38,9 +38,18 @@ packages:
     glob: "codelens_*.deb"
     include_prerelease: false
   - name: shed-machine-rc
-    repo: charliek/shed-extensions
+    repo: charliek/shed
     glob: "shed-machine-rc_*.deb"
     include_prerelease: false
+    # TEMPORARY: repointed from charliek/shed-extensions to charliek/shed for
+    # the monorepo consolidation (Phase 1). charliek/shed does not ship a
+    # shed-machine-rc_*.deb until the first monorepo release, so keep this
+    # optional until then — otherwise a publish dispatch firing in the gap
+    # between this repoint and the first monorepo tag would hard-fail (no recent
+    # charliek/shed release contains the asset). FLIP BACK to required (delete
+    # this comment + the optional line) once the first monorepo release carries
+    # shed-machine-rc_*.deb.
+    optional: true
   - name: shed-desktop
     repo: charliek/shed-desktop
     glob: "shed-desktop_*.deb"
