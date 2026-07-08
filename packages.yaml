@@ -42,7 +42,7 @@ packages:
     glob: "shed-machine-rc_*.deb"
     include_prerelease: false
   - name: shed-desktop
-    repo: charliek/shed-desktop
+    repo: charliek/shed
     glob: "shed-desktop_*.deb"
     include_prerelease: false
     # macOS app; pending its first Linux .deb. Until it ships one, its .dmg-only
