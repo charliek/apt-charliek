@@ -141,8 +141,14 @@ for i in $(seq 0 $((count - 1))); do
 	walked_past=()
 	for cand in "${candidate_tags[@]}"; do
 		[ -z "$cand" ] && continue
-		asset_names=$(gh release view "$cand" --repo "$repo" \
-			--json assets --jq '.assets[].name')
+		# A transient API failure (network, rate limit) must fail THIS package
+		# only, not hard-exit the whole run under set -e.
+		if ! asset_names=$(gh release view "$cand" --repo "$repo" \
+			--json assets --jq '.assets[].name' 2>/dev/null); then
+			echo "    FAIL: could not query assets for ${cand} on ${repo} (network/auth/rate limit?)" >&2
+			failures=$((failures + 1))
+			continue 2
+		fi
 		cand_match=""
 		while IFS= read -r asset; do
 			[ -z "$asset" ] && continue
