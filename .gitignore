@@ -20,7 +20,7 @@
 __pycache__/
 *.pyc
 
-# mkdocs build output
+# Docs build output
 site-build/
 
 # Local apt-publish workspace (regenerated every run; the bucket is the source of truth)
