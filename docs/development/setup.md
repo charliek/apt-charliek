@@ -30,7 +30,7 @@ envsecrets pull
 ```bash
 make help                # list everything
 make lint                # shellcheck + shfmt --diff
-make docs                # uv run mkdocs build --strict
+make docs                # uv run --locked zensical build --strict
 make docs-serve          # serve docs at http://127.0.0.1:7070
 make publish-fixture     # FIXTURE_MODE publish against the committed fixture
 make verify-local        # docker smoke-test the fixture publish
@@ -62,7 +62,7 @@ If you need to test against a real GitHub release (rare), set `GH_TOKEN`, run `.
 
 apt-charliek itself is released by merging to `main`. Two workflows fire:
 
-- `publish-pages.yml` — deploys docs if `docs/`, `mkdocs.yml`, or `pyproject.toml` changed.
+- `publish-pages.yml` — deploys docs if `docs/`, `zensical.toml`, `pyproject.toml`, or `uv.lock` changed. `docs-pr.yml` runs the same strict build on pull requests.
 - `ci.yml` — runs the lint + fixture publish on push to main as a safety net.
 
 The actual apt repo publish runs on `repository_dispatch` (from source repos) or `workflow_dispatch` (manual). Pushing to apt-charliek's main does **not** automatically republish the apt repo — fire `workflow_dispatch` if you want to republish after a script change.

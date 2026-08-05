@@ -7,8 +7,8 @@ help:
 	@echo "  lint              shellcheck + shfmt --diff"
 	@echo "  shellcheck        shellcheck on scripts/, infra/, fixtures/"
 	@echo "  shfmt             shfmt --diff on the same"
-	@echo "  docs              uv run mkdocs build --strict"
-	@echo "  docs-serve        uv run mkdocs serve at http://127.0.0.1:7070"
+	@echo "  docs              uv run --locked zensical build --strict"
+	@echo "  docs-serve        uv run --locked zensical serve at http://127.0.0.1:7070"
 	@echo "  fixture           build fixtures/hello_0.0.1_amd64.deb via nfpm"
 	@echo "  publish-fixture   stage fixture into pool/ and run publish.sh in FIXTURE_MODE"
 	@echo "  verify-local      smoke-test the fixture publish output via debian:noble docker"
@@ -26,12 +26,12 @@ shfmt:
 	shfmt --diff scripts/ infra/ fixtures/
 
 docs:
-	uv sync --group docs
-	uv run mkdocs build --strict
+	uv sync --locked --group docs
+	uv run --locked zensical build --strict
 
 docs-serve:
-	uv sync --group docs
-	uv run mkdocs serve
+	uv sync --locked --group docs
+	uv run --locked zensical serve
 
 fixture:
 	./fixtures/build-fixture.sh
