@@ -37,10 +37,17 @@ packages:
     repo: charliek/codelens
     glob: "codelens_*.deb"
     include_prerelease: false
-  - name: shed-machine-rc
+  - name: sx
     repo: charliek/shed
-    glob: "shed-machine-rc_*.deb"
+    glob: "sx_*.deb"
     include_prerelease: false
+    # The RC session porcelain — took over the brew+apt slot shed-machine-rc
+    # vacated when that component was retired (charliek/shed plan 010/011).
+    # optional until the first sx-shipping tag exists: sx ships on its own
+    # manifest selector (crates/sx/VERSION), so charliek/shed's latest release
+    # legitimately carries no sx_*.deb until one is cut. FLIP TO false once it
+    # has shipped once, so a later regression fails loudly again.
+    optional: true
   - name: shed-desktop
     repo: charliek/shed
     glob: "shed-desktop_*.deb"
