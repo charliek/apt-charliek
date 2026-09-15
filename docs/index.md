@@ -33,6 +33,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 | `shed-server` | [charliek/shed](https://github.com/charliek/shed) | planned | CLI and server for managing persistent VM-based dev environments |
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | published (v0.0.8) | CLI for managing encrypted environment files using GCS and age |
 | `roost` | [charliek/roost](https://github.com/charliek/roost) | published (v0.0.1) | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
+| `craze` | [charliek/craze](https://github.com/charliek/craze) | planned | Terminal UI that drives Cursor and Grok coding agents over ACP |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
 
