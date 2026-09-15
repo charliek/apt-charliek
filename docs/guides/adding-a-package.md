@@ -47,8 +47,8 @@ release-snapshot:
         version: latest
         args: release --snapshot --clean
     - run: |
-        ls dist/<project>_*_linux_amd64.deb
-        dpkg-deb --info dist/<project>_*_linux_amd64.deb
+        ls dist/<project>_*_amd64.deb
+        dpkg-deb --info dist/<project>_*_amd64.deb
 ```
 
 ## Step 3: Add the dispatch step to the release workflow

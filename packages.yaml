@@ -45,3 +45,7 @@ packages:
     # releases must not fail the collect. Remove once it reliably ships a .deb
     # (so a later regression fails loudly again).
     optional: true
+  - name: craze
+    repo: charliek/craze
+    glob: "craze_*.deb"
+    include_prerelease: false
