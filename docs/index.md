@@ -15,7 +15,7 @@ A public Debian/Ubuntu apt repository for Charlie Knudsen's open-source projects
 ```bash
 curl -fsSL https://apt.stridelabs.ai/pubkey.gpg | \
   sudo tee /etc/apt/keyrings/apt-charliek.gpg > /dev/null
-echo 'deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main' | \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main" | \
   sudo tee /etc/apt/sources.list.d/apt-charliek.list
 sudo apt update
 sudo apt install prox

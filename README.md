@@ -10,7 +10,7 @@ Add the repo once:
 sudo install -d -m 0755 /etc/apt/keyrings
 curl -fsSL https://apt.stridelabs.ai/pubkey.gpg | \
   sudo tee /etc/apt/keyrings/apt-charliek.gpg > /dev/null
-echo 'deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main' | \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/apt-charliek.gpg] https://apt.stridelabs.ai noble main" | \
   sudo tee /etc/apt/sources.list.d/apt-charliek.list
 sudo apt update
 ```
