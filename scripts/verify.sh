@@ -99,7 +99,7 @@ local)
 		echo "error: ./pubkey.gpg missing — run scripts/publish.sh first" >&2
 		exit 1
 	}
-	src_line="deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] file:///repo noble main"
+	src_line="deb [arch=\$host_arch signed-by=/etc/apt/keyrings/apt-charliek.gpg] file:///repo noble main"
 	keyring_setup="cp /repo/pubkey.gpg /etc/apt/keyrings/apt-charliek.gpg"
 	mount_args=(-v "$PWD:/repo:ro")
 	;;
@@ -108,7 +108,7 @@ url)
 		echo "error: --url requires a value" >&2
 		exit 2
 	}
-	src_line="deb [signed-by=/etc/apt/keyrings/apt-charliek.gpg] $url noble main"
+	src_line="deb [arch=\$host_arch signed-by=/etc/apt/keyrings/apt-charliek.gpg] $url noble main"
 	keyring_setup="curl -fsSL '$url/pubkey.gpg' >/etc/apt/keyrings/apt-charliek.gpg"
 	mount_args=()
 	;;
@@ -127,7 +127,10 @@ apt-get update -qq >/dev/null
 apt-get install -y -qq --no-install-recommends ca-certificates curl gnupg >/dev/null
 mkdir -p /etc/apt/keyrings
 $keyring_setup
-echo '$src_line' >/etc/apt/sources.list.d/apt-charliek.list
+# Pin the source to the container's native arch, mirroring the documented
+# install snippet (keeps multiarch hosts from probing binary-i386).
+host_arch=\$(dpkg --print-architecture)
+echo "$src_line" >/etc/apt/sources.list.d/apt-charliek.list
 echo '== sources.list.d/apt-charliek.list =='
 cat /etc/apt/sources.list.d/apt-charliek.list
 echo '== apt update =='
