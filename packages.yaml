@@ -49,3 +49,10 @@ packages:
     repo: charliek/craze
     glob: "craze_*.deb"
     include_prerelease: false
+  - name: parcel
+    repo: charliek/parcel
+    glob: "parcel_*.deb"
+    include_prerelease: false
+    # Only the CLI's semver releases (vX.Y.Z, release-cli.yml) are GitHub
+    # Releases with .debs; the server's date-tagged image releases
+    # (vYYYY.MM.DD) create none, so they never shadow a CLI release here.
