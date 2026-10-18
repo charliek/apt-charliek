@@ -32,7 +32,7 @@ sudo apt install prox
 | [`codelens`](https://github.com/charliek/codelens) | ✓ published | Analyze JVM codebases (Java & Kotlin) — classes, methods, handlers, and more (ships JDK 21+ server JAR alongside the Go CLI) |
 | [`shed-desktop`](https://github.com/charliek/shed-desktop) | ◷ pending first release | GTK4/libadwaita Linux desktop client for [shed](https://github.com/charliek/shed) (ships the `shedctl` CLI too; macOS ships as a DMG) |
 | [`craze`](https://github.com/charliek/craze) | ✓ published | Terminal UI that drives Cursor and Grok coding agents over ACP |
-| [`parcel`](https://github.com/charliek/parcel) | ◷ pending first release | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
+| [`parcel`](https://github.com/charliek/parcel) | ✓ published | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 

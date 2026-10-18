@@ -34,7 +34,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 | `envsecrets` | [charliek/envsecrets](https://github.com/charliek/envsecrets) | published (v0.0.8) | CLI for managing encrypted environment files using GCS and age |
 | `roost` | [charliek/roost](https://github.com/charliek/roost) | published (v0.0.1) | Multi-project terminal multiplexer for AI coding agents (GTK desktop app + `roostctl` CLI; macOS ships as a DMG) |
 | `craze` | [charliek/craze](https://github.com/charliek/craze) | published (v0.0.1) | Terminal UI that drives Cursor and Grok coding agents over ACP |
-| `parcel` | [charliek/parcel](https://github.com/charliek/parcel) | pending first release | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
+| `parcel` | [charliek/parcel](https://github.com/charliek/parcel) | published (v0.1.2) | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
 
