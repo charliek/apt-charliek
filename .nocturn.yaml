@@ -1,0 +1,11 @@
+version: 1
+targets:
+  apt:
+    kind: infra
+    # publish.yml (repository_dispatch from the source repos' releases)
+    # collects the debs packages.yaml tracks, signs the index and syncs it to
+    # gs://apt.stridelabs.ai. Shell and apt tooling only: no lockfile ships.
+lockfiles:
+  # pyproject.toml has only the docs group (zensical and the docs theme): it
+  # builds the documentation site (publish-pages.yml).
+  uv.lock: { role: build-tool }
