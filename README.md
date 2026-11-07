@@ -33,10 +33,13 @@ sudo apt install prox
 | [`shed-desktop`](https://github.com/charliek/shed-desktop) | ◷ pending first release | GTK4/libadwaita Linux desktop client for [shed](https://github.com/charliek/shed) (ships the `shedctl` CLI too; macOS ships as a DMG) |
 | [`craze`](https://github.com/charliek/craze) | ✓ published | Terminal UI that drives Cursor and Grok coding agents over ACP |
 | [`parcel`](https://github.com/charliek/parcel) | ✓ published | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
+| [`wren`](https://github.com/charliek/wren) | ◷ pending first release | Desktop app for structured Markdown notes (iced GUI; macOS ships as a DMG) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 
 `roost` is a GUI application — after `sudo apt install roost`, launch it from your desktop's app menu (or run `roost`). It also installs the `roostctl` CLI for shell + AI-agent hook integration.
+
+`wren` is a GUI application too — after `sudo apt install wren`, launch it from your desktop's app menu (or run `wren`).
 
 ## Supported platforms
 

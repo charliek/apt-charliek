@@ -56,3 +56,10 @@ packages:
     # Only the CLI's semver releases (vX.Y.Z, release-cli.yml) are GitHub
     # Releases with .debs; the server's date-tagged image releases
     # (vYYYY.MM.DD) create none, so they never shadow a CLI release here.
+  - name: wren
+    repo: charliek/wren
+    glob: "wren_*.deb"
+    include_prerelease: false
+    # GUI app (iced). release.yml builds wren_<version>_{amd64,arm64}.deb with
+    # nfpm and dispatches event_type=publish with package=wren once the
+    # release is published. No releases yet, which collect-debs.sh skips.
