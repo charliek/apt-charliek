@@ -36,6 +36,7 @@ The repo aggregates `.deb` packages produced by each source project's release pi
 | `craze` | [charliek/craze](https://github.com/charliek/craze) | published (v0.0.1) | Terminal UI that drives Cursor and Grok coding agents over ACP |
 | `parcel` | [charliek/parcel](https://github.com/charliek/parcel) | published (v0.1.2) | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
 | `wren` | [charliek/wren](https://github.com/charliek/wren) | pending first release | Desktop app for structured Markdown notes (iced GUI; macOS ships as a DMG) |
+| `cadence-desktop` | [stridelabs-ai/cadence-desktop](https://github.com/stridelabs-ai/cadence-desktop) | pending first release | Menu bar and tray app for [Cadence](https://cadence.stridelabs.ai), training plans for runners (closed source, binaries only; amd64 only; macOS ships as a DMG) |
 
 Packages are added to the repo by appending an entry to `packages.yaml`. See [Adding a Package](guides/adding-a-package.md).
 

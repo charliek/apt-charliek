@@ -63,3 +63,14 @@ packages:
     # GUI app (iced). release.yml builds wren_<version>_{amd64,arm64}.deb with
     # nfpm and dispatches event_type=publish with package=wren once the
     # release is published. No releases yet, which collect-debs.sh skips.
+  - name: cadence-desktop
+    repo: stridelabs-ai/cadence-desktop
+    glob: "cadence-desktop_*.deb"
+    include_prerelease: false
+    # Menu bar / tray app for Cadence (iced + ksni). Closed source: a private
+    # repo's release workflow builds cadence-desktop_<version>_amd64.deb with
+    # nfpm, publishes it to the public stridelabs-ai/cadence-desktop releases
+    # repo, then dispatches event_type=publish with package=cadence-desktop.
+    # amd64 only for now (an empty arm64 Packages is fine). Its vX.Y.Z-rcN
+    # tags are GitHub prereleases, skipped here. No releases yet, which
+    # collect-debs.sh skips.

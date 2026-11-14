@@ -34,12 +34,15 @@ sudo apt install prox
 | [`craze`](https://github.com/charliek/craze) | ✓ published | Terminal UI that drives Cursor and Grok coding agents over ACP |
 | [`parcel`](https://github.com/charliek/parcel) | ✓ published | CLI for Parcel: publish HTML pages to private, sandboxed links (agents use it too) |
 | [`wren`](https://github.com/charliek/wren) | ◷ pending first release | Desktop app for structured Markdown notes (iced GUI; macOS ships as a DMG) |
+| [`cadence-desktop`](https://github.com/stridelabs-ai/cadence-desktop) | ◷ pending first release | Menu bar and tray app for [Cadence](https://cadence.stridelabs.ai), training plans for runners (closed source, binaries only; amd64 only; macOS ships as a DMG) |
 
 Tracked packages live in [`packages.yaml`](packages.yaml). Status reflects whether the source project's release pipeline ships a `.deb` yet.
 
 `roost` is a GUI application — after `sudo apt install roost`, launch it from your desktop's app menu (or run `roost`). It also installs the `roostctl` CLI for shell + AI-agent hook integration.
 
 `wren` is a GUI application too — after `sudo apt install wren`, launch it from your desktop's app menu (or run `wren`).
+
+`cadence-desktop` is a tray app (amd64 only) — after `sudo apt install cadence-desktop`, launch Cadence from your desktop's app menu (or run `cadence-desktop`); it lives in the panel's tray. On GNOME the tray needs the AppIndicator extension, which Ubuntu enables by default.
 
 ## Supported platforms
 
